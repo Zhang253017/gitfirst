@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Songlist</title>
+    <link rel="stylesheet" href="../common/css/swiper.min.css">
+    <link rel="stylesheet" href="../common/css/font.css">
+    <link rel="stylesheet" href="../common/css/style.css">
+    <link rel="stylesheet" href="../assets/css/songlist.css">
+    <link rel="stylesheet" href="../common/css/reset.css" />
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        if(deviceWidth > 750 )deviceWidth = 750;
+        document.documentElement.style.fontSize = deviceWidth/7.5 + 'px';
+    </script>
+</head>
+<body>
+    <header class="header">
+    	<a href="#">
+		<span class="back lnr lnr-chevron-left "></span>
+    	</a>
+    	<a href="#">
+        <span class="toPlay"></span>
+    	</a>
+    </header>
+    <section class="main">
+    	<nav class="classify" id="wrapper">
+			<div class="scroller">
+				<ul>
+					<li data-id="1">推荐</li>
+					<li data-id="2">华语</li>
+					<li data-id="3">欧美</li>
+					<li data-id="4">日本</li>
+					<li data-id="5">韩国</li>
+					<li data-id="6">港台</li>
+					<li data-id="7">其它</li>
+				</ul>
+			</div>
+    	</nav>
+    	<div class="mainpicture">
+    		<img src="../assets/images/picture1_06.jpg" />
+    	</div>
+    	<div class="song_list">
+    		<ul>
+    			<li class="first-li">
+    				<span class="left lnr lnr-chevron-right-circle"></span>
+    				<span class="right lnr lnr-menu"></span>
+    			</li>
+
+    		</ul>
+    	</div>
+    </section>
+	<footer class="footer"></footer>
+
+
+
+    <script src="../common/js/iscroll.js"></script>
+    <script src="../common/js/jquery-1.10.2.js"></script>
+    <script src="../common/js/swiper.min.js"></script>
+    <script>
+    	var curIndex = 0;
+    	var wrapper = document.getElementsByClassName('song_list')[0];
+    	var myScroll = new IScroll('#wrapper',{scrollX:true,scrollY:false,click:true});
+    	var liList = document.querySelectorAll('#wrapper li');
+    	console.log(liList);
+    	var $loading = $('<p class = "loading"></p>');
+    	
+    	document.getElementById('wrapper').onclick = function(ev){
+    		var oTarget = ev.target;
+    		if(oTarget.nodeName == 'LI'){
+    			
+    			var v =$(oTarget).index();
+    			if(v == curIndex){
+    				return;
+    			}
+    			curIndex = v;
+    			console.log(curIndex);
+    			curStyle();
+ //   			getData(oTarget.getAttribute('data-id'));
+    			myScroll.scrollToElement(oTarget,1000,null,null,IScroll.utils.ease.elastic);
+    		}
+    	}
+    	curStyle();
+    	getData(liList[curIndex].getAttribute('data-id'));
+    	function curStyle(){
+    		$(liList[curIndex]).addClass('selected').siblings().removeClass('selected');
+    	}
+    	
+//  	function getData(_id){
+//  		$(wrapper).children('ul').append($loading);
+//  		$.ajax({
+//  			type:"GET",
+//  			url:"http://127.0.0.1/myweb/project/wangyiyun/server/list.php",
+//  			data{
+//  				id :_id
+//  			},
+//  			dataType:'json'
+//  		}).done(function(data){
+//  			    setTimeout(function(){
+//                  if (data.errCode == 1){
+//                      insertDom(data.info);
+//                      // 取消 loading
+//                      $Loading.remove();
+//                  } else {
+//                      alert(data.errMsg);
+//                  }
+//              }, 500);
+//  		});
+//  	}
+//  	
+//  	function insertDom(arr){
+//  		 var str = '<li>';
+//          for (var i = 0; i < arr.length; i++){
+//              var tmpArr = [
+//  				'<a href=" '+arr[i].link_url+' ">',
+//  					'<strong>',
+//  						'<img src="'+arr[i].img_url+'" />',
+//  					'</strong> ',   					
+//  					'<div class="song-name">',
+//  						'<h5> '+arr[i].title+' </h5>',
+//  						'<em> '+arr[i].singer+' </em>'
+//  					'</div>',
+//  				'</a>'
+//              ];
+//              str += tmpArr.join('');
+//          }
+//          str += '</li>';
+//          console.log(str);
+//          $(wrapper).html(str);
+//  	}
+    </script>
+</body>
+</html>
